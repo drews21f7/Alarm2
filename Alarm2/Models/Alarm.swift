@@ -14,13 +14,20 @@ class Alarm {
     var enabled: Bool
     var uuid: String
     var fireTimeAsString: String {
-        let dateFormatter = DateFormatter()
-        return dateFormatter
-    }
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .none
+            dateFormatter.timeStyle = .short
+            return dateFormatter.string(from: fireDate)
+            
+        }
+    
+    
     
     init(fireDate: Date, name: String, enabled: Bool, uuid: String) {
         self.fireDate = fireDate
         self.name = name
         self.enabled = enabled
+        self.uuid = uuid
+        //self.fireTimeAsString = fireTimeAsString
     }
 }
