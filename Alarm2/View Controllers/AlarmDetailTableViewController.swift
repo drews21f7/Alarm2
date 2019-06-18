@@ -10,6 +10,17 @@ import UIKit
 
 class AlarmDetailTableViewController: UITableViewController {
     
+    var alarmIsOn: Bool =  true
+    
+    
+    
+    var alarm: Alarm?{
+        didSet{
+            loadViewIfNeeded()
+            self.updateViews()
+        }
+    }
+    
     @IBOutlet weak var datePicker: UIDatePicker!
     
     @IBOutlet weak var alarmNameField: UITextField!
@@ -20,12 +31,30 @@ class AlarmDetailTableViewController: UITableViewController {
     }
     
     @IBAction func saveButtonTapped(_ sender: Any) {
+        guard let name = alarmNameField.text, name != "" else { return }
+        if let alarm = alarm {
+            AlarmController.sharedInstance.update(alarm: alarm, fireDate: datePicker.date, name: name, enabled: alarmIsOn)
+        } else {
+            AlarmController.sharedInstance.addAlarm(fireDate: datePicker.date, name: name, enabled: alarmIsOn)
+        }
+        //let datePicker = datePicker.date,
+        
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
 
+    }
+    
+    func updateViews() {
+        
+        guard let alarm = alarm else { return }
+        alarmIsOn = alarm.enabled
+        datePicker.date = alarm.fireDate
+        alarmNameField.text = alarm.name
+        
     }
     
     

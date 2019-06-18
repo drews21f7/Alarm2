@@ -17,15 +17,19 @@ class AlarmController {
 //    var mockAlarms:[Alarm] {
 //        let alarm1 = Alarm(fireDate: , name: <#T##String#>)
 //    }
+    func toggleEnabled(for alarm: Alarm) {
+        alarm.enabled = !alarm.enabled
+    }
     
-    func addAlarm(fireDate: Date, name: String) {
-        let newAlarm = Alarm(fireDate: fireDate, name: name)
+    func addAlarm(fireDate: Date, name: String, enabled: Bool) {
+        let newAlarm = Alarm(fireDate: fireDate, name: name, enabled: Bool)
         alarms.append(newAlarm)
     }
     
-    func update(alarm: Alarm, fireDate: Date, name: String) {
+    func update(alarm: Alarm, fireDate: Date, name: String, enabled: Bool) {
         alarm.fireDate = fireDate
         alarm.name = name
+        alarm.enabled = enabled
     }
     
     func delete(alarm: Alarm) {

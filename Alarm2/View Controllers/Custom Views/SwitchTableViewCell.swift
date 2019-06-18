@@ -8,14 +8,21 @@
 
 import UIKit
 
+//protocol SwitchTableViewCellDelegate: class {
+//    func switchCellSwitchValueChanged(cell: SwitchTableViewCell)
+//}
+
+
 class SwitchTableViewCell: UITableViewCell {
     
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var alarmSwitch: UISwitch!
     @IBAction func switchValueChanged(_ sender: Any) {
+        delegate?.switchCellSwitchValueChanged(cell: self)
     }
     
+    weak var delegate: SwitchTableViewCellDelegate?
     //need to find out what didSet does
     var alarm: Alarm? {
         didSet {
@@ -30,3 +37,4 @@ class SwitchTableViewCell: UITableViewCell {
         alarmSwitch.isOn = alarm.enabled
     }
 }
+
