@@ -16,4 +16,17 @@ class SwitchTableViewCell: UITableViewCell {
     @IBAction func switchValueChanged(_ sender: Any) {
     }
     
+    //need to find out what didSet does
+    var alarm: Alarm? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    func updateViews() {
+        guard let alarm = alarm else {return}
+        timeLabel.text = alarm.fireTimeAsString
+        nameLabel.text = alarm.name
+        alarmSwitch.isOn = alarm.enabled
+    }
 }

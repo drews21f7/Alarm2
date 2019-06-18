@@ -23,11 +23,19 @@ class Alarm {
     
     
     
-    init(fireDate: Date, name: String, enabled: Bool, uuid: String) {
+    init(fireDate: Date, name: String, enabled: Bool = true, uuid: String = UUID().uuidString) {
         self.fireDate = fireDate
         self.name = name
         self.enabled = enabled
         self.uuid = uuid
         //self.fireTimeAsString = fireTimeAsString
+    }
+}
+
+extension Alarm: Equatable {
+    static func == (lhs: Alarm, rhs: Alarm) -> Bool {
+        return lhs.fireDate == rhs.fireDate
+        && lhs.name == rhs.name
+        && lhs.fireTimeAsString == rhs.fireTimeAsString
     }
 }
