@@ -9,10 +9,12 @@
 import UIKit
 
 protocol SwitchTableViewCellDelegate: class {
-    func switchCellSwitchValueChanged(cell: SwitchTableViewCell)
+    func switchCellSwitchValueChanged(sender: SwitchTableViewCell)
 }
 
-class AlarmListTableViewController: UITableViewController, SwitchTableViewCellDelegate {
+class AlarmListTableViewController: UITableViewController, SwitchTableViewCellDelegate, AlarmScheduler {
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,18 +31,19 @@ class AlarmListTableViewController: UITableViewController, SwitchTableViewCellDe
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "alarmCell", for: indexPath) as? SwitchTableViewCell else {return UITableViewCell() }
+         let cell = tableView.dequeueReusableCell(withIdentifier: "alarmCell", for: indexPath) as? SwitchTableViewCell
         
         let alarm = AlarmController.sharedInstance.alarms[indexPath.row]
         
-        cell.alarm = alarm
+        cell?.delegate = self
+        cell?.alarm = alarm
         // Configure the cell...
 
-        return cell
+        return cell ?? UITableViewCell()
     }
     
-    func switchCellSwitchValueChanged(cell: SwitchTableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
+    func switchCellSwitchValueChanged(sender: SwitchTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: sender) else { return }
         let alarm = AlarmController.sharedInstance.alarms[indexPath.row]
         AlarmController.sharedInstance.toggleEnabled(for: alarm)
     }
@@ -87,11 +90,11 @@ class AlarmListTableViewController: UITableViewController, SwitchTableViewCellDe
             
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
             
-            guard let destinationVC = segue.destination as? AlarmDetailTableViewController else { return }
+            let destinationVC = segue.destination as? AlarmDetailTableViewController
             
             let alarm = AlarmController.sharedInstance.alarms[indexPath.row]
             
-            destinationVC.alarm = alarm
+            destinationVC?.alarm = alarm
         }
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.

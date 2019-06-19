@@ -8,11 +8,11 @@
 
 import Foundation
 
-class Alarm {
+class Alarm: Equatable, Codable {
     var fireDate: Date
     var name: String
     var enabled: Bool
-    var uuid: String
+    let uuid: String
     var fireTimeAsString: String {
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .none
@@ -32,10 +32,8 @@ class Alarm {
     }
 }
 
-extension Alarm: Equatable {
-    static func == (lhs: Alarm, rhs: Alarm) -> Bool {
-        return lhs.fireDate == rhs.fireDate
-        && lhs.name == rhs.name
-        && lhs.fireTimeAsString == rhs.fireTimeAsString
+
+    func == (lhs: Alarm, rhs: Alarm) -> Bool {
+        return lhs.uuid == rhs.uuid
     }
-}
+

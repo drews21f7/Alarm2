@@ -15,14 +15,6 @@ import UIKit
 
 class SwitchTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var alarmSwitch: UISwitch!
-    @IBAction func switchValueChanged(_ sender: Any) {
-        delegate?.switchCellSwitchValueChanged(cell: self)
-    }
-    
-    weak var delegate: SwitchTableViewCellDelegate?
     //need to find out what didSet does
     var alarm: Alarm? {
         didSet {
@@ -30,11 +22,33 @@ class SwitchTableViewCell: UITableViewCell {
         }
     }
     
+    weak var delegate: SwitchTableViewCellDelegate?
+    
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var alarmSwitch: UISwitch!
+    
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
+    
+    
     func updateViews() {
         guard let alarm = alarm else {return}
+        
         timeLabel.text = alarm.fireTimeAsString
         nameLabel.text = alarm.name
         alarmSwitch.isOn = alarm.enabled
     }
+    
+    @IBAction func switchValueChanged(_ sender: Any) {
+        delegate?.switchCellSwitchValueChanged(sender: self)
+    }
+
 }
 
